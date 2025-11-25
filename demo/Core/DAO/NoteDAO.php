@@ -46,6 +46,8 @@ class NoteDAO implements NoteDAOInterface{
     }
 
     public function deleteNote($id){
-        
+        return $this->db->query("delete from notes where id = :id", [
+            ':id' => $id
+        ]);
     }
 }
