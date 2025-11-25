@@ -1,13 +1,11 @@
-version: "3.9"
-
 name: practica-php
+
 services:
   db:
     image: mysql:5.7
-    container_name: notes_db
     environment:
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: notes_app
+      MYSQL_DATABASE: php_videos
     ports:
       - "3306:3306"
     volumes:
@@ -15,7 +13,6 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: notes_phpmyadmin
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
@@ -25,8 +22,7 @@ services:
       - db
 
   php:
-    image: php:8.2-apache
-    container_name: notes_php
+    build: .
     volumes:
       - ./demo:/var/www/html
     ports:
