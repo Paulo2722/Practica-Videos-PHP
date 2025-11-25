@@ -1,17 +1,34 @@
 <!-- create.php !-->
 <?php
 
-view("notes/create.view.php", [
-    'heading' => "Create Note",
-    'errors' => []
-]);
-
-
 //Todos los use
-use Core\App;
-use Core\Database;
+use Core\Factory\FactoryDAO;
 use Core\Validator;
 
+class NotesController{
+    protected $dao;
+    protected $user_id;
+
+    public function __construct(){
+        $this->dao = FactoryDAO::getDAONote();
+        
+        $this->user_id = $_SESSION['user']['id'];
+    }
+
+    public function index(){
+        $notes = $this->dao->findByUser($this->user_id);
+
+        return view("notes/index.view.php", [
+        'heading' => "Notes",
+        'notes' => $notes
+        ]);
+    }
+
+}
+
+
+
+/*
 //destroy.php
 
 $db = App::resolve(Database::class);
@@ -149,3 +166,4 @@ $db->query('UPDATE notes SET body = :body WHERE id = :id', [
 
 header("location: /notes");
 die();
+*/
