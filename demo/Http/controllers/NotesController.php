@@ -64,6 +64,19 @@ class NotesController{
         ]);
     }
 
+    public function edit(){
+        $note = $this->dao->findBydId($id);
+
+        authorize($note["user_id"] === $this->user_id);
+    
+        return view("notes/edit.view.php", [
+            'heading' => "Edit Note",
+            'errors' => [],
+            'note' => $note,
+        ]);
+
+    }
+
 }
 
 
