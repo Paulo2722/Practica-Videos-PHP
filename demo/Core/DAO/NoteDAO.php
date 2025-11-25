@@ -30,7 +30,12 @@ class NoteDAO implements NoteDAOInterface{
     }
 
     public function createNote($body){
+        $this->db->query("insert into notes(user_id, body) values(:user_id, :body)", [
+            ':user_id' => $user_id,
+            'body' => $body
+        ]);
 
+        return $this->db->id();
     }
 
     public function updateNote($id, $body){
