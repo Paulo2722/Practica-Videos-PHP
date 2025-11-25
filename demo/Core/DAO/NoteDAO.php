@@ -39,10 +39,13 @@ class NoteDAO implements NoteDAOInterface{
     }
 
     public function updateNote($id, $body){
-
+        return $this->db->query("update notes set body = :body where id = :id", [
+            'body' => $body,
+            ':id' => $id
+        ]);
     }
 
     public function deleteNote($id){
-
+        
     }
 }
