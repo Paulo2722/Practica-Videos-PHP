@@ -3,6 +3,7 @@
 namespace Core\DAO;
 
 interface NoteDAOInterface{
+    public function findAll();
     public function findById($id);
     public function findByUser($user);
     public function createNote($body);

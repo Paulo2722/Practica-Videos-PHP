@@ -11,4 +11,29 @@ class NoteDAO implements NoteDAOInterface{
     public function __construct(Database $db){
         $this->db = $db;
     }
+
+
+    public function findAll(){
+        return $this->db->query("select * from notes order by id desc")->get();
+    }
+
+    public function findById($id){
+
+    }
+
+    public function findByUser($user){
+
+    }
+
+    public function createNote($body){
+
+    }
+
+    public function updateNote($id, $body){
+
+    }
+
+    public function deleteNote($id){
+
+    }
 }
