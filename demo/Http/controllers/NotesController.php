@@ -43,6 +43,16 @@ class NotesController{
         ]);
     }
 
+    public function destroy($id){
+        $note = $this->dao->findById($id);
+
+        authorize($note["user_id"] === $this->user_id);
+
+        $this->dao->deleteNote($id);
+
+        redirect("/notes");
+    }
+
 }
 
 
