@@ -8,6 +8,6 @@ use Core\DAO\NoteDAO;
 
 class FactoryDAO{
     public static function getDAONote(){
-        return new DAONote(App::resolve(Database::class));
+        return new NoteDAO(App::resolve(Database::class));
     }
 }

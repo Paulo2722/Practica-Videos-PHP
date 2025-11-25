@@ -14,7 +14,7 @@ class NoteDAO implements NoteDAOInterface{
 
 
     public function findAll(){
-        return $this->db->query("select * from notes order by id desc")->get();
+        return $this->db->query("select * from notes order by id desc")->find();
     }
 
     public function findById($id){
