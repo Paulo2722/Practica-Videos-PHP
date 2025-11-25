@@ -53,6 +53,17 @@ class NotesController{
         redirect("/notes");
     }
 
+    public function show(){
+        $note = $this->dao->findBydId($id);
+
+        authorize($note["user_id"] === $this->user_id);
+    
+        return view("notes/show.view.php", [
+            'heading' => "Note #$id",
+            'note' => $note,
+        ]);
+    }
+
 }
 
 
