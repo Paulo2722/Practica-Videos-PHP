@@ -31,7 +31,7 @@ class NotesController{
         ]);
     }
 
-    public function update(){
+    public function update($id){
         $note = $this->dao->findById($id);
 
         authorize($note['user_id'] === $this->user_id);
@@ -53,7 +53,7 @@ class NotesController{
         redirect("/notes");
     }
 
-    public function show(){
+    public function show($id){
         $note = $this->dao->findBydId($id);
 
         authorize($note["user_id"] === $this->user_id);
@@ -64,7 +64,7 @@ class NotesController{
         ]);
     }
 
-    public function edit(){
+    public function edit($id){
         $note = $this->dao->findBydId($id);
 
         authorize($note["user_id"] === $this->user_id);
@@ -74,7 +74,15 @@ class NotesController{
             'errors' => [],
             'note' => $note,
         ]);
+    }
 
+    public function store() {
+        return view("notes/create.view.php", [
+            'heading' => "Create Note",
+            'errors' => ["body" => "Invalid body"]
+        ]);
+        $this->dao->createNote($this->user_id, $_POST["body"]);
+        redirect("/notes");
     }
 
 }
