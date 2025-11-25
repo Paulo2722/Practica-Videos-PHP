@@ -18,7 +18,9 @@ class NoteDAO implements NoteDAOInterface{
     }
 
     public function findById($id){
-
+        return $this->db->query("select * from notes where id = :id", [
+            ':id' => $id
+        ])->find();
     }
 
     public function findByUser($user){
