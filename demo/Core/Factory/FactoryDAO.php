@@ -1,1 +1,13 @@
 <?php
+
+namespace Core\Database;
+
+use Core\App;
+use Core\Database;
+use Core\DAO\NoteDAO;
+
+class FactoryDAO{
+    public static function getDAONote(){
+        return new DAONote(App::resolve(Database::class));
+    }
+}
