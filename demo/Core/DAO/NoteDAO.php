@@ -26,10 +26,10 @@ class NoteDAO implements NoteDAOInterface{
     public function findByUser($user_id){
         return $this->db->query("select * from notes where user_id = :user_id", [
             ':user_id' => $user_id
-        ])->find();
+        ])->get();
     }
 
-    public function createNote($body){
+    public function createNote($user_id, $body){
         $this->db->query("insert into notes(user_id, body) values(:user_id, :body)", [
             ':user_id' => $user_id,
             'body' => $body
