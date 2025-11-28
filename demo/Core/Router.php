@@ -57,25 +57,34 @@ class Router
     public function route($uri, $method)
     {
         foreach ($this->routes as $route) {
-            if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
-                Middleware::resolve($route['middleware']);
+        // Convertir {param} en regex
+        $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)', $route['uri']);
+        $pattern = "#^" . $pattern . "$#";
 
-                $controller = $route['controller'];
+        $matches = []; // inicializamos siempre
 
-                if (is_array($controller)) {
-                    $class = $controller[0];
-                    $method = $controller[1];
+        if (preg_match($pattern, $uri, $matches) && $route['method'] === strtoupper($method)) {
+            Middleware::resolve($route['middleware']);
 
-                    $instance = new $class();
-                    return $instance->$method();
-                }
+            $controller = $route['controller'];
 
-                return require base_path('Http/controllers/' . $controller);
+            if (is_array($controller)) {
+                $class = $controller[0];
+                $method = $controller[1];
+
+                $instance = new $class();
+
+                // Si hay parámetros capturados, los pasamos
+                $params = array_slice($matches, 1);
+                return $instance->$method(...$params);
             }
-        }
 
-        return $this->abort();
+            return require base_path('Http/controllers/' . $controller);
+        }
     }
+
+    return $this->abort();
+}
 
     public function abort($code = 404) {
         http_response_code($code);

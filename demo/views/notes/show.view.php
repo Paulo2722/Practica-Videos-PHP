@@ -11,7 +11,7 @@
             <p><?= htmlspecialchars($note['body']) ?></p>
 
             <footer class="mt-6">
-                <a href="/note/edit?id=<?= $note['id'] ?>" class="rounded-md bg-gray-500 hover:bg-indigo-700 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                <a href="/notes/<?= $note['id'] ?>/edit" class="rounded-md bg-gray-500 hover:bg-indigo-700 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                     Edit
                 </a>
             </footer>
