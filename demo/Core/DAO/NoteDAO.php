@@ -14,7 +14,7 @@ class NoteDAO implements NoteDAOInterface{
 
 
     public function findAll(){
-        return $this->db->query("select * from notes order by id desc")->find();
+        return $this->db->query("select * from notes order by id desc")->get();
     }
 
     public function findById($id){
@@ -32,15 +32,15 @@ class NoteDAO implements NoteDAOInterface{
     public function createNote($user_id, $body){
         $this->db->query("insert into notes(user_id, body) values(:user_id, :body)", [
             ':user_id' => $user_id,
-            'body' => $body
+            ':body' => $body
         ]);
 
-        return $this->db->id();
+        return $this->db->lastInsertId();
     }
 
     public function updateNote($id, $body){
         return $this->db->query("update notes set body = :body where id = :id", [
-            'body' => $body,
+            ':body' => $body,
             ':id' => $id
         ]);
     }

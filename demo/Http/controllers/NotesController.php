@@ -1,74 +1,56 @@
-<!-- create.php !-->
 <?php
+namespace Http\controllers;
 
-//Todos los use
 use Core\Factory\FactoryDAO;
-use Core\Validator;
 
-class NotesController{
+class NotesController {
+
     protected $dao;
     protected $user_id;
 
-    public function __construct(){
+    public function __construct() {
+        $this->user_id = $_SESSION['user']['id'] ?? null;
         $this->dao = FactoryDAO::getDAONote();
-        
-        $this->user_id = $_SESSION['user']['id'];
     }
 
-    public function index(){
+    public function index() {
         $notes = $this->dao->findByUser($this->user_id);
 
         return view("notes/index.view.php", [
-        'heading' => "Notes",
-        'notes' => $notes
+            'heading' => "Notes",
+            'notes' => $notes
         ]);
     }
 
-    public function create(){
+    public function create() {
         return view("notes/create.view.php", [
             'heading' => "Create Notes",
             'errors' => []
         ]);
     }
 
-    public function update($id){
-        $note = $this->dao->findById($id);
+    public function store() {
+        $body = $_POST['body'];
 
-        authorize($note['user_id'] === $this->user_id);
+        $this->dao->createNote($this->user_id, $body);
 
-        return view("notes/edit.view.php", [
-            'heading' => "Edit Note",
-            'errors' => [],
-            'note' => $note,
-        ]);
+        redirect('/notes');
     }
 
-    public function destroy($id){
+    public function show($id) {
         $note = $this->dao->findById($id);
-
         authorize($note["user_id"] === $this->user_id);
 
-        $this->dao->deleteNote($id);
-
-        redirect("/notes");
-    }
-
-    public function show($id){
-        $note = $this->dao->findById($id);
-
-        authorize($note["user_id"] === $this->user_id);
-    
         return view("notes/show.view.php", [
             'heading' => "Note #$id",
             'note' => $note,
         ]);
     }
 
-    public function edit($id){
-        $note = $this->dao->findBydId($id);
-
+    public function edit($id) {
+        $note = $this->dao->findById($id);
         authorize($note["user_id"] === $this->user_id);
-    
+
         return view("notes/edit.view.php", [
             'heading' => "Edit Note",
             'errors' => [],
@@ -76,22 +58,19 @@ class NotesController{
         ]);
     }
 
-    public function store() {
-        $errors = [];
+    public function update($id) {
+        $note = $this->dao->findById($id);
+        authorize($note['user_id'] === $this->user_id);
 
-    if (!isset($_POST["body"]) || strlen(trim($_POST["body"])) < 1) {
-        $errors['body'] = "Invalid body";
+        $this->dao->updateNote($id, $_POST['body']);
+        redirect('/notes');
     }
 
-    if (!empty($errors)) {
-        return view("notes/create.view.php", [
-            'heading' => "Create Note",
-            'errors' => $errors
-        ]);
-    }
+    public function destroy($id) {
+        $note = $this->dao->findById($id);
+        authorize($note["user_id"] === $this->user_id);
 
-    $this->dao->createNote($this->user_id, $_POST["body"]);
-    redirect("/notes");
+        $this->dao->deleteNote($id);
+        redirect('/notes');
     }
-
 }

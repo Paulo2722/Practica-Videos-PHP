@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Database;
+namespace Core\Factory;
 
 use Core\App;
 use Core\Database;
