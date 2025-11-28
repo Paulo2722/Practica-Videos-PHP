@@ -60,10 +60,21 @@ class Router
             if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
                 Middleware::resolve($route['middleware']);
 
-                return require base_path('Http/controllers/' . $route['controller']);
+                $controller = $route['controller'];
+
+                if (is_array($controller)) {
+                    $class = $controller[0];
+                    $method = $controller[1];
+
+                    $instance = new $class();
+                    return $instance->$method();
+                }
+
+                return require base_path('Http/controllers/' . $controller);
             }
         }
-        $this->abort();
+
+        return $this->abort();
     }
 
     public function abort($code = 404) {
