@@ -9,7 +9,11 @@ class NotesController {
     protected $user_id;
 
     public function __construct() {
-        $this->user_id = $_SESSION['user']['id'] ?? null;
+        if (esJson()){
+            $this->user_id = $_REQUEST['auth_user_id'] ?? null;
+        }else{
+            $this->user_id = $_SESSION['user']['id'] ?? null;
+        }
         $this->dao = FactoryDAO::getDAONote();
     }
 
