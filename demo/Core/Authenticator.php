@@ -31,6 +31,13 @@ class Authenticator
         $this->login($user);
         return true;
     }
+    public function nuevoToken($user_id){
+        $token = bin2hex(random_bytes(32));
+
+        $this->guardarToken($user_id, $token);
+
+        return $token;
+    }
 
     public function login($account) {
         $_SESSION['user'] = [
