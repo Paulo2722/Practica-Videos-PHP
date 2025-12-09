@@ -33,6 +33,13 @@ class NotesController {
         ]);
     }
 
+    public function create() {
+        return view("notes/create.view.php", [
+            'heading' => "Create Notes",
+            'errors' => []
+        ]);
+    }
+
     public function store() {
         $body = $_POST['body'];
 
