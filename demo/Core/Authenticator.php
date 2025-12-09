@@ -39,6 +39,16 @@ class Authenticator
         return $token;
     }
 
+    public function guardarToken($user_id, $token){
+        App::resolve(Database::class)->query(
+            "INSERT INTO tokens (user_id, token) VALUES (:user_id, :token)",
+            [
+                'user_id' => $user_id,
+                'token' => $token
+            ]
+        );
+    }
+
     public function login($account) {
         $_SESSION['user'] = [
             'id' => $account["id"],
