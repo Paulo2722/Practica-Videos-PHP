@@ -8,14 +8,28 @@ $form = LoginForm::validate($attributes = [
     'password' => $_POST['password']
 ]);
 
-$signedIn = (new Authenticator)->attempt(
-    $attributes['email'], $attributes['password']
-);
+$auth = new Authenticator();
 
-if (!$signedIn) {
-    $form->error(
-        'email', 'No matching account found for that email address and password.'
-    )->throw();
+$token = $auth->attempt($attributes['email'], $attributes['password']);
+
+if(!$token) {
+
+    //Respuesta JSON
+    if(esJson()){
+        return json(['error' => 'Credenciales invalidas'], 401);
+    }
+
+    //Respuesta REST
+    $form->error('email', 'Credenciales invalidas');
 }
 
+//Si es JSON devolvemos el token
+if (esJson()) {
+    return json([
+        'success' => true,
+        'token' => $token
+    ]);
+}
+
+// Web normal
 redirect('/');
