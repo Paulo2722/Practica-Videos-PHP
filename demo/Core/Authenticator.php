@@ -1,6 +1,8 @@
 <?php
 
 namespace Core;
+use function Core\json;
+use function Core\esJson;
 
 class Authenticator
 {
@@ -33,9 +35,7 @@ class Authenticator
     }
     public function nuevoToken($user_id){
         $token = bin2hex(random_bytes(32));
-
         $this->guardarToken($user_id, $token);
-
         return $token;
     }
 

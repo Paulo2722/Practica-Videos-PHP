@@ -2,6 +2,9 @@
 namespace Http\controllers;
 
 use Core\Factory\FactoryDAO;
+require_once BASE_PATH . 'Core/Identificador.php';
+use function Core\json;
+use function Core\esJson;
 
 class NotesController {
 
@@ -30,13 +33,6 @@ class NotesController {
         ]);
     }
 
-    public function create() {
-        return view("notes/create.view.php", [
-            'heading' => "Create Notes",
-            'errors' => []
-        ]);
-    }
-
     public function store() {
         $body = $_POST['body'];
 
@@ -59,17 +55,6 @@ class NotesController {
 
         return view("notes/show.view.php", [
             'heading' => "Note #$id",
-            'note' => $note,
-        ]);
-    }
-
-    public function edit($id) {
-        $note = $this->dao->findById($id);
-        authorize($note["user_id"] === $this->user_id);
-
-        return view("notes/edit.view.php", [
-            'heading' => "Edit Note",
-            'errors' => [],
             'note' => $note,
         ]);
     }
