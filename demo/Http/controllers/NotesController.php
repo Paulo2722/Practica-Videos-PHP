@@ -20,6 +20,10 @@ class NotesController {
     public function index() {
         $notes = $this->dao->findByUser($this->user_id);
 
+        if(esJson()){
+            return json($notes);
+        }
+
         return view("notes/index.view.php", [
             'heading' => "Notes",
             'notes' => $notes
@@ -38,12 +42,20 @@ class NotesController {
 
         $this->dao->createNote($this->user_id, $body);
 
+        if(esJson()){
+            return json(['success' => true]);
+        }
+
         redirect('/notes');
     }
 
     public function show($id) {
         $note = $this->dao->findById($id);
         authorize($note["user_id"] === $this->user_id);
+
+        if(esJson()){
+            return json($note);
+        }
 
         return view("notes/show.view.php", [
             'heading' => "Note #$id",
@@ -67,6 +79,11 @@ class NotesController {
         authorize($note['user_id'] === $this->user_id);
 
         $this->dao->updateNote($id, $_POST['body']);
+
+        if(esJson()){
+            return json(['success' => true]);
+        }
+
         redirect('/notes');
     }
 
@@ -75,6 +92,11 @@ class NotesController {
         authorize($note["user_id"] === $this->user_id);
 
         $this->dao->deleteNote($id);
+
+        if(esJson()){
+            return json(['success' => true]);
+        }
+
         redirect('/notes');
     }
 }
