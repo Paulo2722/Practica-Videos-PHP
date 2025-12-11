@@ -39,6 +39,12 @@ class NotesController {
             'errors' => []
         ]);
     }
+    public function edit($id){
+        $note = $this->dao->findById($id); // usar DAO
+        authorize(intval($note['user_id']) === intval($this->user_id));
+
+        return view('notes/edit.view.php', ['note' => $note]);
+    }
 
     public function store() {
         $body = $_POST['body'];
