@@ -2,6 +2,7 @@
 
 use Core\Authenticator;
 use Http\Forms\LoginForm;
+//Funciones de token
 use function Core\json;
 use function Core\esJson;
 

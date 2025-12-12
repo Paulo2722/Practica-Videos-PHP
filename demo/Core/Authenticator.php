@@ -17,6 +17,8 @@ class Authenticator
             ]
         )->find();
     }
+
+    //Autenticar el usuario
     public function attempt($email, $password)
     {
         $user = $this->getUser($email);
@@ -27,7 +29,7 @@ class Authenticator
 
         // Si la petición es JSON, creo un token
         if (esJson()) {
-            return $this->nuevoToken($user['id']);
+            return $this->crearNuevoTokenTemporal($user['id'], 32);
         }
 
         // Si la petición es web, inicio una sesión normal
@@ -42,16 +44,9 @@ class Authenticator
         return $token;
     }
 
-    //Crear un token de otra forma
-
-    /**
-     * @throws RandomException
-     */
-    public function crearNuevoToken($user_id, $longitud){
-        if ($longitud < 4) {
-            $longitud = 4;
-        }
-
+    //Crear un token temporal
+    public function crearNuevoTokenTemporal($user_id, $longitud){
+        //¿Como hacerlo temporal?
         $token = bin2hex(random_bytes($longitud));
         $this->guardarToken($user_id, $token);
         return $this;
