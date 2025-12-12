@@ -1,6 +1,7 @@
 <?php
 
 namespace Core;
+use Random\RandomException;
 use function Core\json;
 use function Core\esJson;
 
@@ -33,11 +34,29 @@ class Authenticator
         $this->login($user);
         return true;
     }
+
+    //Creación del token
     public function nuevoToken($user_id){
         $token = bin2hex(random_bytes(32));
         $this->guardarToken($user_id, $token);
         return $token;
     }
+
+    //Crear un token de otra forma
+
+    /**
+     * @throws RandomException
+     */
+    public function crearNuevoToken($user_id, $longitud){
+        if ($longitud < 4) {
+            $longitud = 4;
+        }
+
+        $token = bin2hex(random_bytes($longitud));
+        $this->guardarToken($user_id, $token);
+        return $this;
+    }
+
 
     public function guardarToken($user_id, $token){
         App::resolve(Database::class)->query(
