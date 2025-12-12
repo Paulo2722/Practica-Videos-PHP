@@ -45,6 +45,9 @@ switch ($request) {
     case 'POST':
         include("users/post.php");
         break;
+    case 'DELETE':
+        include("users/delete.php");
+        break;
     default:
         echo json_encode(["message" => "Método no permitido"]);
 }
