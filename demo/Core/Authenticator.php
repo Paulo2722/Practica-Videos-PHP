@@ -46,8 +46,8 @@ class Authenticator
 
     //Crear un token temporal
     public function crearNuevoTokenTemporal($user_id, $longitud){
-        //¿Como hacerlo temporal?
         $token = bin2hex(random_bytes($longitud));
+        set_time_limit(300); //Tiempo de vida de un token
         $this->guardarToken($user_id, $token);
         return $this;
     }

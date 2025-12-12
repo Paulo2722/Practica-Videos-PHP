@@ -7,6 +7,7 @@
             <p class="text-white">Hello <?= $_SESSION['user']['name'] ?? "Guest" ?>. Welcome to the home page.</p>
 
             <!--Campos para añadir el cumpleaños y el telefono!-->
+            <p>*Estos campos estan por el examen*</p>
             <form method="post">
                 <input type="date" style="color: blue">
                 <input type="text" style="color: blue">
