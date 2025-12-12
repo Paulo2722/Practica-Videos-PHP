@@ -2,6 +2,8 @@
 
 use Core\Session;
 use Core\ValidationException;
+use function Core\esJson;
+use function Core\json;
 
 session_start();
 
@@ -32,6 +34,21 @@ try {
 
     return redirect($router->previousUrl());
 }
+
+//Parte de token
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+
+$request = $_SERVER['REQUEST_METHOD'];
+
+switch ($request) {
+    case 'POST':
+        include("users/post.php");
+        break;
+    default:
+        echo json_encode(["message" => "Método no permitido"]);
+}
+
 
 Session::unflash();
 
