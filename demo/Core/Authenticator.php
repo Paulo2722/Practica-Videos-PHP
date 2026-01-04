@@ -38,7 +38,29 @@ class Authenticator
         return true;
     }
 
+    //Creación de token temporal
+    public function crearToken($user_id)
+    {
+        $token = bin2hex(random_bytes(32));
 
+        //Esto me permite establecer una fecha de caducidad al token
+        $expires = (new DateTime('+5 minutes'))->format('Y-m-d H:i:s');
+
+        App::resolve(Database::class)->query(
+            "INSERT INTO tokens (user_id, token, expires_at)
+             VALUES (:user_id, :token, :expires)",
+            [
+                'user_id' => $user_id,
+                'token' => $token,
+                'expires' => $expires
+            ]
+        );
+
+        return [
+            'token' => $token,
+            'expires_at' => $expires
+        ];
+    }
 
 
     public function guardarToken($user_id, $token){
