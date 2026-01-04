@@ -9,6 +9,7 @@ class Authenticator
 {
     protected $errors = [];
 
+    //Obtengo un usuario según su email
     public function getUser($email){
         return App::resolve(Database::class)->query(
             'SELECT * FROM users WHERE email = :email',
