@@ -62,6 +62,18 @@ class Authenticator
         ];
     }
 
+    //Validación del token
+    //Compruebo que el token existe y no está caducado y obengo al usuario asignado
+    public function validarToken($token)
+    {
+        return App::resolve(Database::class)->query(
+            "SELECT users.* FROM tokens
+             JOIN users ON users.id = tokens.user_id
+             WHERE token = :token
+             AND expires_at > NOW()",
+            ['token' => $token]
+        )->find();
+    }
 
     public function guardarToken($user_id, $token){
         App::resolve(Database::class)->query(
