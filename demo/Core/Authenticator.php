@@ -75,6 +75,22 @@ class Authenticator
         )->find();
     }
 
+    //Funciones para eliminar los tokens, una elimina un token concreto mientras que la otra, elimina todos
+    public function eliminarToken($token)
+    {
+        App::resolve(Database::class)->query(
+            "DELETE FROM tokens WHERE token = :token",
+            ['token' => $token]
+        );
+    }
+
+    public function eliminarTodosTokens($user_id)
+    {
+        App::resolve(Database::class)->query(
+            "DELETE FROM tokens WHERE user_id = :id",
+            ['id' => $user_id]
+        );
+    }
     public function guardarToken($user_id, $token){
         App::resolve(Database::class)->query(
             "INSERT INTO tokens (user_id, token) VALUES (:user_id, :token)",
