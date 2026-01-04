@@ -38,20 +38,7 @@ class Authenticator
         return true;
     }
 
-    //Creación del token
-    public function nuevoToken($user_id){
-        $token = bin2hex(random_bytes(32));
-        $this->guardarToken($user_id, $token);
-        return $token;
-    }
 
-    //Crear un token temporal
-    public function crearNuevoTokenTemporal($user_id, $longitud){
-        $token = bin2hex(random_bytes($longitud));
-        set_time_limit(300); //Tiempo de vida de un token
-        $this->guardarToken($user_id, $token);
-        return $this;
-    }
 
 
     public function guardarToken($user_id, $token){
