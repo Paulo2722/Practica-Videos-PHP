@@ -44,7 +44,7 @@ class Authenticator
         $token = bin2hex(random_bytes(32));
 
         //Esto me permite establecer una fecha de caducidad al token
-        $expires = (new DateTime('+5 minutes'))->format('Y-m-d H:i:s');
+        $expires = (new \DateTime('+5 minutes'))->format('Y-m-d H:i:s'); //En DateTime, he de usar la clase global
 
         App::resolve(Database::class)->query(
             "INSERT INTO tokens (user_id, token, expires_at)
