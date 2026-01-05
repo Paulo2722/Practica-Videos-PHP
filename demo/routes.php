@@ -21,3 +21,10 @@ $router->get('/login', 'session/create.php')->only('guest');
 $router->post('/session', 'session/store.php')->only('guest');
 $router->delete('/session', 'session/destroy.php')->only('auth');
 
+//Añado las rutas de la api
+$router->post('/api/login', 'api/login.php');
+$router->get('/api/me', 'api/me.php');
+$router->put('/api/me', 'api/me_update.php');
+$router->post('/api/logout', 'api/logout.php');
+$router->delete('/api/tokens', 'api/tokens.php');
+
