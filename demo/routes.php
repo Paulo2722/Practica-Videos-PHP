@@ -23,8 +23,8 @@ $router->delete('/session', 'session/destroy.php')->only('auth');
 
 //Añado las rutas de la api
 $router->post('/api/login', 'api/login.php');
-$router->get('/api/me', 'api/me.php');
-$router->put('/api/me', 'api/me_update.php');
-$router->post('/api/logout', 'api/logout.php');
-$router->delete('/api/tokens', 'api/tokens.php');
+$router->get('/api/user', 'api/user.php');
+$router->put('/api/user', 'api/update_user.php');
+$router->post('/api/delete_token', 'api/delete_token.php');
+$router->delete('/api/delete_tokens', 'api/delete_tokens.php');
 
