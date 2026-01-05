@@ -4,7 +4,7 @@ use Core\Database;
 use Core\Middleware\Middleware;
 use function Core\json;
 
-Middleware::resolve('auth.api');
+Middleware::resolve('auth_api');
 
 $data = json_decode(file_get_contents('php://input'), true);
 

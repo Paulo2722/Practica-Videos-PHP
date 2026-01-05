@@ -3,7 +3,7 @@ use Core\Authenticator;
 use Core\Middleware\Middleware;
 use function Core\json;
 
-Middleware::resolve('auth.api');
+Middleware::resolve('auth_api');
 
 (new Authenticator)->eliminarToken($_SERVER['api_token']);
 
