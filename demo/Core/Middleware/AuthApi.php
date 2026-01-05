@@ -8,24 +8,25 @@ class AuthApi
 {
     public function handle()
     {
-        //Obtengo el header
+        //Compruebo que viene el header Authorization
         $header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 
-        //Compruebo al usuario que porta el token
         if (!str_starts_with($header, 'Bearer ')) {
-            json(['error' => 'Token requerido'], 401);
+            json(['error' => 'Token no proporcionado'], 401);
         }
 
-        //Obtengo el token y lo valido
-        $token = substr($header, 7);
+        //Extraigo el token
+        $token = str_replace('Bearer ', '', $header);
 
-        $user = (new Authenticator)->validarToken($token);
+        //Valido el token
+        $auth = new Authenticator();
+        $user = $auth->validarToken($token);
 
-        //Compruebo si el token es válido o no
         if (!$user) {
             json(['error' => 'Token inválido o caducado'], 401);
         }
 
+        //Guardo el usuario y el token
         $_SERVER['api_user'] = $user;
         $_SERVER['api_token'] = $token;
     }
