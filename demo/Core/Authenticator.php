@@ -30,7 +30,7 @@ class Authenticator
 
         // Si la petición es JSON, creo un token
         if (esJson()) {
-            return $this->crearNuevoTokenTemporal($user['id'], 32);
+            return $this->crearToken($user['id']);
         }
 
         // Si la petición es web, inicio una sesión normal
