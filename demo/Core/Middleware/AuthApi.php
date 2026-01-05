@@ -11,6 +11,11 @@ class AuthApi
         //Compruebo que viene el header Authorization
         $header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 
+        if (!$header) {
+            $headers = apache_request_headers();
+            $header = $headers['Authorization'] ?? '';
+        }
+
         if (!str_starts_with($header, 'Bearer ')) {
             json(['error' => 'Token no proporcionado'], 401);
         }
